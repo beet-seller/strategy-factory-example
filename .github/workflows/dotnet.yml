@@ -22,8 +22,9 @@ jobs:
       - name: Unit Tests
         run: |
           cd ./tests/StrategyFactory.Tests/
-          dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=TestResults\
-          ls -R
+          dotnet test --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover          
+          cp -r . .
+          ls -al
       - name: Publish Code Coverage
         uses: codecov/codecov-action@v3
         with:
