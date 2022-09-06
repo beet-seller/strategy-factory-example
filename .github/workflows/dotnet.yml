@@ -1,0 +1,31 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 6.0.x
+      - name: Restore Dependencies
+        run: dotnet restore src
+      - name: Build
+        run: dotnet build src --configuration Release --no-restore
+      - name: Unit Tests
+        run: |
+          cd ./tests/StrategyFactory.Tests/
+          dotnet test --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover          
+          cd TestResults && find . -type f -mindepth 2 -exec mv -- {} . \;
+      - name: Publish Code Coverage
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./tests/StrategyFactory.Tests/TestResults/coverage.opencover.xml
+          fail_ci_if_error: true
