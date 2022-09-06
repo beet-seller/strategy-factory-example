@@ -26,5 +26,5 @@ jobs:
       - name: Publish Code Coverage
         uses: codecov/codecov-action@v3
         with:
-          files: ./tests/StrategyFactory.Tests/TestResults/coverage.opencover.xml
+          files: ./tests/StrategyFactory.Tests/TestResults/*/coverage.opencover.xml
           fail_ci_if_error: true
