@@ -24,7 +24,6 @@ jobs:
           cd ./tests/StrategyFactory.Tests/
           dotnet test --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover          
           cd TestResults && find . -type f -mindepth 2 -exec mv -- {} . \;
-          ls -al
       - name: Publish Code Coverage
         uses: codecov/codecov-action@v3
         with:
